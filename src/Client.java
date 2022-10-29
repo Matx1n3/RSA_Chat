@@ -24,10 +24,20 @@ public class Client {
             out = new PrintWriter(clientSocket.getOutputStream());
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             manager.setOtherUserPublicKey(in.readLine());
+            System.out.println("Other user's public key has been received and set");
+            out.println(manager.getPublicKey());
+            out.flush();
+            System.out.println("Public key has been sent");
+            manager.setOtherUsername(manager.receiveMessage(in.readLine()));
+            System.out.println("Other username received");
+            out.println(manager.sendMessage(manager.getUsername()));
+            out.flush();
             while (true){
-                out.println(manager.sendMessage(sc.nextLine()));
-                out.flush();
-                System.out.println(manager.receiveMessage(in.readLine()));
+                System.out.println("@" + manager.getOtherUsername() + ": " + manager.receiveMessage(in.readLine()));
+                if (sc.hasNextLine()) {
+                    out.println(manager.sendMessage(sc.nextLine()));
+                    out.flush();
+                }
             }
         }
         catch (IOException e){

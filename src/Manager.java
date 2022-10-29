@@ -46,4 +46,12 @@ public class Manager {
     public String getPublicKey(){
         return user.getPublicKey();
     }
+
+    public void setOtherUsername(String username_in){
+        otherUser.setUsername(username_in);
+    }
+
+    public String getOtherUsername(){
+        return otherUser.getUsername();
+    }
 }

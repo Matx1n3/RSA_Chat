@@ -4,7 +4,7 @@ public class OtherUser {
     private BigInteger n;
     private BigInteger r;
     private static OtherUser onlyInstance = null;
-    String username;
+    private String username;
 
     private OtherUser(String username_in){
         username = username_in;
