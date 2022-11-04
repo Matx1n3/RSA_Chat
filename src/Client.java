@@ -23,19 +23,27 @@ public class Client {
             System.out.println("Connected to the server!");
             out = new PrintWriter(clientSocket.getOutputStream());
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            manager.setOtherUserPublicKey(in.readLine());
+            String otherPKey = in.readLine();
+            System.out.println("Received otherpKey = " + otherPKey);
+            manager.setOtherUserPublicKey(otherPKey);
             System.out.println("Other user's public key has been received and set");
             out.println(manager.getPublicKey());
             out.flush();
             System.out.println("Public key has been sent");
+            System.out.println("Public key = " + manager.getPublicKey());
             manager.setOtherUsername(manager.receiveMessage(in.readLine()));
-            System.out.println("Other username received");
+            System.out.println("Servername received");
             out.println(manager.sendMessage(manager.getUsername()));
             out.flush();
+            System.out.println("Username sent");
+            System.out.println("Sent username = " + manager.getUsername());
+
             while (true){
-                System.out.println("@" + manager.getOtherUsername() + ": " + manager.receiveMessage(in.readLine()));
-                if (sc.hasNextLine()) {
-                    out.println(manager.sendMessage(sc.nextLine()));
+                if (in.ready()){
+                    System.out.println(manager.receiveMessage(in.readLine()));
+                }
+                if (sc.hasNextLine()){
+                    out.println(sc.nextLine());
                     out.flush();
                 }
             }
