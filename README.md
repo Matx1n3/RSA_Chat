@@ -1,2 +1,2 @@
 # RSA_Chat
-This proyect intention is to allow secure comunication between two parties from the terminal using the RSA encryption algorithym. 
+This proyect will offer a secure chat room in which evererything is encrypted using RSA.
