@@ -12,6 +12,10 @@ public class Manager {
         otherUser = new OtherUser("notNameYet");
     }
 
+    public void setUsername(String username_in){
+        user.setUsername(username_in);
+    }
+
     public String sendMessage(String message_in){
         return otherUser.encrypt(message_in);
     }
@@ -33,7 +37,6 @@ public class Manager {
     }
 
     public void setOtherUsername(String username_in){
-        System.out.println("Setting username to " + username_in);
         otherUser.setUsername(username_in);
     }
 

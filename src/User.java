@@ -25,6 +25,10 @@ public class User {
         return username;
     }
 
+    public void setUsername(String username_in){
+        username = username_in;
+    }
+
     public String getPublicKey(){
         return n + ";" + r;
     }
