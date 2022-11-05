@@ -3,18 +3,10 @@ import java.math.BigInteger;
 public class OtherUser {
     private BigInteger n;
     private BigInteger r;
-    private static OtherUser onlyInstance = null;
     private String username;
 
-    private OtherUser(String username_in){
+    public OtherUser(String username_in){
         username = username_in;
-    }
-
-    public static OtherUser getnstance(){
-        if (onlyInstance == null){
-            onlyInstance = new OtherUser("");
-        }
-        return onlyInstance;
     }
 
     public void setUsername(String username_in){

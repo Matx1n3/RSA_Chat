@@ -26,32 +26,69 @@ public class Server {
 
         while (true) {
             try {
+                //System.out.println("isBound = " + serverSocket.isBound());
                 if (serverSocket.isBound()) {
-                    userArrayList.add(new ServerUser(serverSocket.accept(), userArrayList.size()));
-                    System.out.println("A new user has connected to the server!");
-                    userArrayList.get(userArrayList.size() - 1).sendServersPublicKey();
-                    System.out.println("Public key has been sent");
-                    userArrayList.get(userArrayList.size() - 1).setUsersPublicKey();
-                    System.out.println("Other user's public key has been received and set");
-                    userArrayList.get(userArrayList.size() - 1).send(serverName);
-                    System.out.println("Server name sent");
-                    userArrayList.get(userArrayList.size() - 1).setUsersUsername();
-                    System.out.println("User's username received");
-                    System.out.println("@" + userArrayList.get(userArrayList.size() - 1).getUsername() + " has joined the room.");
-                }
+                    System.out.println("size = " + userArrayList.size());
+                    userArrayList.add(new ServerUser(serverSocket.accept(), userArrayList.size()-1));
+                    System.out.println("size = " + userArrayList.size());
+                    //System.out.println("A new user has connected to the server!");
+                    userArrayList.get(userArrayList.size()-1).sendServersPublicKey();
+                    //System.out.println("Public key has been sent");
+                    userArrayList.get(userArrayList.size()-1).setUsersPublicKey();
+                    //System.out.println("Other user's public key has been received and set");
+                    userArrayList.get(userArrayList.size()-1).send(serverName);
+                    //System.out.println("Server name sent");
+                    userArrayList.get(userArrayList.size()-1).setUsersUsername();
+                    //System.out.println("User's username received");
+                    System.out.println("@" + userArrayList.get(userArrayList.size()-1).getUsername() + " has joined the room.");
 
-                for (int i = 0; i < userArrayList.size(); i++) {
-                    if (userArrayList.get(i).incomingMessage()) {
-                        String message = userArrayList.get(i).receive();
-                        for (int j = 0; j < i; j++) {
-                            userArrayList.get(j).send(message);
-                        }
-                        for (int j = i++; j < userArrayList.size(); j++) {
-                            userArrayList.get(j).send(message);
+                    System.out.println("Online users: ");
+                    System.out.println(userArrayList);
+
+                    userArrayList.add(new ServerUser(serverSocket.accept(), userArrayList.size()-1));
+
+                    System.out.println("Online users: ");
+                    System.out.println(userArrayList);
+
+                    System.out.println("size = " + userArrayList.size());
+                    //System.out.println("A new user has connected to the server!");
+                    userArrayList.get(userArrayList.size()-1).sendServersPublicKey();
+                    //System.out.println("Public key has been sent");
+                    userArrayList.get(userArrayList.size()-1).setUsersPublicKey();
+                    //System.out.println("Other user's public key has been received and set");
+                    userArrayList.get(userArrayList.size()-1).send(serverName);
+                    //System.out.println("Server name sent");
+                    userArrayList.get(userArrayList.size()-1).setUsersUsername();
+                    System.out.println("Online users: ");
+                    System.out.println(userArrayList);
+                    //System.out.println("User's username received");
+                    System.out.println("@" + userArrayList.get(userArrayList.size()-1).getUsername() + " has joined the room.");
+                }
+                System.out.println("Online users: ");
+                System.out.println(userArrayList);
+
+                while (true) {
+                    //System.out.println("Checking for messages...");
+                    for (int i = 0; i < userArrayList.size(); i++) {
+                        if (userArrayList.get(i).incomingMessage()) {
+                            System.out.println("User " + userArrayList.get(i).getUsername() + " has sent a message.");
+                            String message = userArrayList.get(i).receive();
+                            switch (message){
+                                case "/usersonline":
+                                    userArrayList.get(i).send("Online users: " + userArrayList);
+                                    break;
+                                default:
+                                    System.out.println("@" + userArrayList.get(i).getUsername() + ": " + message);
+                                    for (int j = 0; j < i; j++) {
+                                        userArrayList.get(j).send("@" + userArrayList.get(i).getUsername() + ": " + message);
+                                    }
+                                    for (int j = i+1; j < userArrayList.size(); j++) {
+                                        userArrayList.get(j).send("@" + userArrayList.get(i).getUsername() + ": " + message);
+                                    }
+                            }
                         }
                     }
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -9,14 +9,15 @@ public class ServerUser {
     final BufferedReader in;
     final PrintWriter out;
     private int id;
-    Manager manager;
+    private Manager manager;
 
     public ServerUser(Socket clientSocket_in, int id) throws IOException {
        clientSocket = clientSocket_in;
        out = new PrintWriter(clientSocket.getOutputStream());
        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
        this.id = id;
-       manager = Manager.getInstance(String.valueOf(id));
+       manager = new Manager(String.valueOf(id));
+       manager.setOtherUsername("Anon");
     }
 
     public void send(String message){
@@ -43,7 +44,6 @@ public class ServerUser {
 
     public void sendServersPublicKey(){
         sendUnencrypted(manager.getPublicKey());
-        System.out.println("Sent pKey = " + manager.getPublicKey());
     }
 
     public void setUsersPublicKey() throws IOException {
@@ -55,6 +55,10 @@ public class ServerUser {
     }
 
     public String getUsername(){
+        return manager.getOtherUsername();
+    }
+
+    public String toString(){
         return manager.getOtherUsername();
     }
 }

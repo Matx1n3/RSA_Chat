@@ -1,30 +1,15 @@
 public class Manager {
-    private static User user;
-    private static OtherUser otherUser;
-    private static Manager onlyInstance = null;
+    private User user;
+    private OtherUser otherUser;
 
-    private Manager(){
-        user = User.getInstance();
-        otherUser = OtherUser.getnstance();
+    public Manager(){
+        user = new User("stillAnon");
+        otherUser = new OtherUser("notNameYet");
     }
 
-    private Manager(String username_in){
-        user = User.getInstance(username_in);
-        otherUser = OtherUser.getnstance();
-    }
-
-    public static Manager getInstance(){
-        if (onlyInstance == null){
-            onlyInstance = new Manager();
-        }
-        return onlyInstance;
-    }
-
-    public static Manager getInstance(String username_in){
-        if (onlyInstance == null){
-            onlyInstance = new Manager(username_in);
-        }
-        return onlyInstance;
+    public Manager(String username_in){
+        user = new User(username_in);
+        otherUser = new OtherUser("notNameYet");
     }
 
     public String sendMessage(String message_in){
@@ -48,6 +33,7 @@ public class Manager {
     }
 
     public void setOtherUsername(String username_in){
+        System.out.println("Setting username to " + username_in);
         otherUser.setUsername(username_in);
     }
 
