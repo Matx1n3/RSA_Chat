@@ -26,3 +26,6 @@ hs_err_pid*
 
 # IML
 *.iml
+
+# Production folder
+production/*
